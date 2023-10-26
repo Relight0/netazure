@@ -1,0 +1,27 @@
+name: Apply Dev
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AZURE_SUBSCRIPTION_ID_WORKSHOP: "${{ secrets.AZURE_PLATFORM_SUBSCRIPTION_ID_SB_WORKSHOP }}"
+  AZURE_TENANT_ID_WORKSHOP: "${{ secrets.AZURE_TENANT_ID_WORKSHOP }}"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  azure_login:
+    name: "Login to Azure"
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS_WORKSHOP }}
